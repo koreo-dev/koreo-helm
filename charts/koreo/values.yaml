@@ -1,0 +1,67 @@
+nameOverride: ""
+
+fullnameOverride: ""
+
+image:
+  repository: us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-core
+  tag: ""
+  pullPolicy: Always
+  pullSecrets: []
+
+crds:
+  install: true
+  keep: true
+  annotations: {}
+
+commonLabels: {}
+
+serviceAccount:
+  create: true
+  name: koreo
+  labels: {}
+  annotations: {}
+  pullSecrets: []
+
+rbac:
+  create: true
+  namespace:
+    read_only: {}
+    read_write: {}
+
+  cluster:
+    read_only: {}
+    read_write: {}
+
+controller:
+  name: controller
+  replicas: 1
+  revisionHistoryLimit: 10
+  deploymentAnnotations: {}
+  podLabels: {}
+  podAnnotations: {}
+  podSecurityContext: {}
+  extraInitContainers: []
+  securityContext: {}
+  resources: {}
+  extraEnv: []
+  volumeMounts: []
+  extraContainers: []
+  volumes: []
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+  priorityClassName: ""
+  pdb:
+    enabled: false
+    minAvailable: 1
+    maxUnavailable: 1
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+    behavior: {}
