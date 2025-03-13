@@ -1,67 +1,104 @@
-nameOverride: ""
-
-fullnameOverride: ""
-
 image:
+  # -- Repository for Koreo Image.
   repository: us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-core
+  # -- Tag for Koreo image. Defaults to `.Chart.AppVersion`.
   tag: ""
+  # -- Image pullPolicy For Koreo image
   pullPolicy: Always
+  # -- Pull secrets with credentials to pull images from a private registry
   pullSecrets: []
 
 crds:
+  # -- Install and upgrade CRDs
   install: true
+  # -- Keep or delete CRDs on chart uninstall
   keep: true
+  # -- Annotations to be added to all CRDs
   annotations: {}
 
+# -- String to override the name portion of koreo.fullname variable
+nameOverride: ""
+
+# -- String to override the koreo.fullname variable
+fullnameOverride: ""
+
+# -- Labels that get set on every resource
 commonLabels: {}
 
 serviceAccount:
+  # -- Create a service account or not
   create: true
+  # -- Service account name to create or expect
   name: koreo
+  # -- Labels applied to created service account
   labels: {}
+  # -- Annotations applied to created service account
   annotations: {}
+  # -- Pull secrets with credentials to pull images from a private registry
   pullSecrets: []
 
 rbac:
+  # -- Create Role, RoleBinding, ClusterRole, and ClusterRoleBinding for serviceAccount.name
   create: true
   namespace:
+    # -- Read-only apiGroups and their resources that the serviceAccount.name is granted access to in the deployed namespace
     read_only: {}
+      # apps/v1:
+      #   - deployment
+    # -- Read-write apiGroups and their resources that the serviceAccount.name is granted access to in the deployed namespace
     read_write: {}
 
   cluster:
+    # -- Read-only apiGroups and their resources that the serviceAccount.name is granted access to in the cluster
     read_only: {}
+    # -- Read-write apiGroups and their resources that the serviceAccount.name is granted access to in the cluster
     read_write: {}
 
 controller:
+  # -- Controller name
   name: controller
+  # -- Number of desired replicas
   replicas: 1
+  # -- The number of historical revisions to keep
   revisionHistoryLimit: 10
+  # -- Annotations that should be applied to the deployment
   deploymentAnnotations: {}
+  # -- Additional pod labels that should be applied to the pod
   podLabels: {}
+  # -- Annotations that should be applied to the pod
   podAnnotations: {}
+  # -- Pod Security Context that are set on the controller pods
   podSecurityContext: {}
-  extraInitContainers: []
+  # -- Additional init containers to be added to the controller deployment
+  initContainers: []
+  # -- Sets security context for the controller pod
   securityContext: {}
+  # -- Resource limits and requests for the controller pod
   resources: {}
+  # -- Extra environment variables to attach to the controller pod
   extraEnv: []
+  # -- Volume mounts to be added to the controller pod
   volumeMounts: []
-  extraContainers: []
+  # Additional volumes to be added to the deployment
   volumes: []
+  # -- Additional containers to be added to the deployment
+  extraContainers: []
+  # -- Node selector for which nodes types are suitable for the deployment and its pods
   nodeSelector:
     kubernetes.io/os: linux
+  # -- Node tolerations to specify which nodes are suitable for the deployment and its pods
   tolerations: []
+  # -- Attach pod / node affinity rules to the pod
   affinity: {}
+  # -- Attach custom topology rules to the controller
   topologySpreadConstraints: []
+  # -- Attach a priority class to the pods.
   priorityClassName: ""
-  pdb:
-    enabled: false
-    minAvailable: 1
-    maxUnavailable: 1
 
-  autoscaling:
+  pdb:
+    # -- Enable or disable pod disruption budget for the controller
     enabled: false
-    minReplicas: 1
-    maxReplicas: 5
-    targetCPUUtilizationPercentage: 50
-    targetMemoryUtilizationPercentage: 50
-    behavior: {}
+    # -- Set the min available pods
+    minAvailable: 1
+    # -- Set the Max unavailable pods
+    maxUnavailable: 1

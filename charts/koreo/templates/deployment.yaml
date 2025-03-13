@@ -34,7 +34,7 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.controller.extraInitContainers }}
+      {{- with .Values.controller.initContainers }}
       initContainers:
         {{- tpl (toYaml .) $ | nindent 8 }}
       {{- end }}
