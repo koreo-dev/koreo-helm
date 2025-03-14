@@ -23,7 +23,7 @@ jobs:
           exec: helm upgrade --install koreo ./charts/koreo --set image.tag=latest
 
       - name: Wait for Controller to Be Ready
-        run: kubectl wait --for=condition=available --timeout=90s deployment/koreo
+        run: kubectl get pods && kubectl wait --for=condition=available --timeout=90s deployment/koreo
 
       - name: Run Tests (Optional)
         run: |
