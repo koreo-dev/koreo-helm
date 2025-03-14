@@ -1,0 +1,61 @@
+apiVersion: koreo.dev/v1beta1
+kind: ResourceTemplate
+metadata:
+  name: simple-template.v1
+spec:
+  template:
+    apiVersion: koreo.dev/v1beta1
+    kind: TestDummy
+    metadata:
+      name: simple-test-resource-simple
+      namespace: default
+      labels:
+        testing.realkinetic.com/a-label: some-forced-label
+    spec:
+      aTrue: true
+      aNumber: 18
+      aString: This is a test.
+      aList:
+        - This
+        - Is
+        - A
+        - Test
+      aMap:
+        name: some
+        number: 821
+---
+apiVersion: koreo.dev/v1beta1
+kind: ResourceTemplate
+metadata:
+  name: template-a.v1
+spec:
+  template:
+    apiVersion: koreo.dev/v1beta1
+    kind: TestDummy
+    metadata:
+      name: simple-test-resource-template-a
+      namespace: default
+      labels:
+        testing.realkinetic.com/a-label: some-forced-label
+    spec:
+      value: I am template A
+      intvalue: 99
+      aFalse: false
+---
+apiVersion: koreo.dev/v1beta1
+kind: ResourceTemplate
+metadata:
+  name: template-b.v1
+spec:
+  template:
+    apiVersion: koreo.dev/v1beta1
+    kind: TestDummy
+    metadata:
+      name: simple-test-resource-template-b
+      namespace: default
+      labels:
+        testing.realkinetic.com/a-label: some-forced-label
+    spec:
+      someting: I am template B
+      different: This is a test
+      aTrue: true

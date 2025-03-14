@@ -1,0 +1,57 @@
+name: Test Kubernetes Controller with Helm
+
+on:
+  push:
+    branches:
+      - "**" # Runs on all branches
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1
+
+      - name: Deploy
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: helm upgrade --install koreo ./charts/koreo --set image.tag=latest --
+
+      - name: Wait for Controller to Be Ready
+        run: |
+          kubectl get pods
+          for i in {1..18}; do  # Retry for ~90s (18 * 5s = 90s)
+            READY=$(kubectl get deployment koreo -o=jsonpath='{.status.conditions[?(@.type=="Available")].status}')
+            if [[ "$READY" == "True" ]]; then
+              echo "Deployment is available!"
+              exit 0
+            fi
+            echo "Waiting for deployment to become available..."
+            kubectl get pods
+            sleep 5
+          done
+          echo "Timed out waiting for deployment to be available"
+          exit 1
+
+      - name: Run Tests (Optional)
+        run: |
+          kubectl apply -f tests/crds
+          # Example: Apply a test CRD and verify behavior
+          kubectl apply \
+            -f tests/compare-directives.koreo \
+            -f tests/k8s-sa.koreo \
+            -f tests/patch-loop-testing.koreo \
+            -f tests/resource-functions.koreo \
+            -f tests/value-functions.koreo \
+            -f tests/workflows.koreo 
+          sleep 10  # Allow time for processing
+          kubectl get triggerdummies -o yaml
+
+      - name: Cleanup
+        if: always()
+        run: kind delete cluster --name test-cluster

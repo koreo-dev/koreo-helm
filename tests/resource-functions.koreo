@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: koreo-testing
+---
+apiVersion: koreo.dev/v1beta1
+kind: ResourceFunction
+metadata:
+  name: resource-reader.v1
+  namespace: default
+spec:
+  preconditions:
+  - assert: =inputs.validators.skip
+    skip:
+      message: skip message
+
+  - assert: =inputs.validators.depSkip
+    depSkip:
+      message: depSkip message
+
+  - assert: =inputs.validators.permFail
+    permFail:
+      message: permFail message
+
+  - assert: =inputs.validators.retry
+    retry:
+      message: retry message
+      delay: 13
+
+  - assert: =inputs.validators.ok
+    ok: {}
+
+  locals:
+    computed: =inputs.values.string + " local computed"
+    resource_name: =inputs.name + "-test-name"
+
+  apiConfig:
+    apiVersion: koreo.dev/v1beta1
+    kind: TestDummy
+    plural: testdummies
+    namespaced: true
+    readonly: true
+
+    name: =locals.resource_name
+    namespace: default
+
+  resource: {}
+
+  return:
+    ref: =resource.self_ref()
+    computedInt: =resource.spec.int
+---
+apiVersion: koreo.dev/v1beta1
+kind: ResourceFunction
+metadata:
+  name: resource-factory.v1
+  namespace: default
+spec:
+  preconditions:
+  - assert: =inputs.validators.skip
+    skip:
+      message: skip message
+
+  - assert: =inputs.validators.depSkip
+    depSkip:
+      message: depSkip message
+
+  - assert: =inputs.validators.permFail
+    permFail:
+      message: permFail message
+
+  - assert: =inputs.validators.retry
+    retry:
+      message: retry message
+      delay: 13
+
+  - assert: =inputs.validators.ok
+    ok: {}
+
+  locals:
+    computed: =inputs.values.string + " local computed"
+    resource_name: =inputs.name + "-"  + inputs.suffix
+
+  apiConfig:
+    apiVersion: koreo.dev/v1beta1
+    kind: TestDummy
+    plural: testdummies
+    namespaced: true
+
+    name: =locals.resource_name
+    namespace: default
+
+  resource:
+    spec:
+      string: =locals.computed
+      int: =inputs.values.int
+
+  return:
+    ref: =resource.self_ref()
+    computedInt: =resource.spec.int

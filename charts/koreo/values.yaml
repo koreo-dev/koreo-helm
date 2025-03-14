@@ -2,7 +2,7 @@ image:
   # -- Repository for Koreo Image.
   repository: us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-core
   # -- Tag for Koreo image. Defaults to `.Chart.AppVersion`.
-  tag: ""
+  tag: "latest"
   # -- Image pullPolicy For Koreo image
   pullPolicy: Always
   # -- Pull secrets with credentials to pull images from a private registry
@@ -42,7 +42,8 @@ rbac:
   create: true
   namespace:
     # -- Read-only apiGroups and their resources that the serviceAccount.name is granted access to in the deployed namespace
-    read_only: {}
+    read_only:
+      {}
       # apps/v1:
       #   - deployment
     # -- Read-write apiGroups and their resources that the serviceAccount.name is granted access to in the deployed namespace
