@@ -20,7 +20,7 @@ jobs:
       - name: Deploy
         uses: WyriHaximus/github-action-helm3@v3
         with:
-          exec: helm upgrade --install koreo ./charts/koreo --set image.tag=latest
+          exec: helm upgrade --install koreo ./charts/koreo --set image.tag=latest --
 
       - name: Wait for Controller to Be Ready
         run: |
@@ -40,10 +40,11 @@ jobs:
 
       - name: Run Tests (Optional)
         run: |
+          kubectl apply -f tests/crds
           # Example: Apply a test CRD and verify behavior
-          kubectl apply -f test/test-crd.yaml
+          kubectl apply -f tests/
           sleep 10  # Allow time for processing
-          kubectl get crds
+          kubectl get triggerdummies -o yaml
 
       - name: Cleanup
         if: always()
