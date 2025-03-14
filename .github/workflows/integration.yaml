@@ -23,7 +23,20 @@ jobs:
           exec: helm upgrade --install koreo ./charts/koreo --set image.tag=latest
 
       - name: Wait for Controller to Be Ready
-        run: kubectl get pods && kubectl wait --for=condition=available --timeout=90s deployment/koreo
+        run: |
+          kubectl get pods
+          for i in {1..18}; do  # Retry for ~90s (18 * 5s = 90s)
+            READY=$(kubectl get deployment koreo -o=jsonpath='{.status.conditions[?(@.type=="Available")].status}')
+            if [[ "$READY" == "True" ]]; then
+              echo "Deployment is available!"
+              exit 0
+            fi
+            echo "Waiting for deployment to become available..."
+            kubectl get pods
+            sleep 5
+          done
+          echo "Timed out waiting for deployment to be available"
+          exit 1
 
       - name: Run Tests (Optional)
         run: |
