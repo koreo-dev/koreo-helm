@@ -1,0 +1,47 @@
+name: Test Kubernetes Controller with Helm
+
+on:
+  push:
+    branches:
+      - "**" # Runs on all branches
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          chmod +x /usr/local/bin/kind
+          curl -Lo /usr/local/bin/kubectl https://dl.k8s.io/release/v1.27.0/bin/linux/amd64/kubectl
+          chmod +x /usr/local/bin/kubectl
+          curl -Lo /usr/local/bin/helm https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz
+          tar -xzf helm-v3.12.0-linux-amd64.tar.gz
+          mv linux-amd64/helm /usr/local/bin/helm
+          chmod +x /usr/local/bin/helm
+
+      - name: Create Kind Cluster
+        run: kind create cluster --name test-cluster
+
+      - name: Install Helm Chart
+        run: |
+          helm upgrade --install koreo ./charts/koreo --set image.tag=v0.1.x
+
+      - name: Wait for Controller to Be Ready
+        run: kubectl wait --for=condition=available --timeout=90s deployment/koreo
+
+      - name: Run Tests (Optional)
+        run: |
+          # Example: Apply a test CRD and verify behavior
+          kubectl apply -f test/test-crd.yaml
+          sleep 10  # Allow time for processing
+          kubectl get crds
+
+      - name: Cleanup
+        if: always()
+        run: kind delete cluster --name test-cluster
