@@ -12,4 +12,5 @@ You can disable the CRD installation of the chart by using `--set crds.install=f
 
 ### Changelog
 
+
 Changelogs are tracked on each release. Read more about this process [here](https://github.com/koreo.dev/kore-helm/blob/main/CONTRIBUTING.md#changelog).
