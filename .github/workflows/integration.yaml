@@ -17,17 +17,10 @@ jobs:
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1
 
-      - name: Install Helm Chart
-        run: |
-          helm upgrade --install koreo ./charts/koreo --set image.tag=v0.1.x
-
       - name: Deploy
-        uses: deliverybot/helm@v1
+        uses: WyriHaximus/github-action-helm3@v3
         with:
-          release: koreo
-          namespace: default
-          chart: charts/koreo
-          token: "${{ github.token }}"
+          exec: helm upgrade --install koreo ./charts/koreo --set image.tag=v0.1.x
 
       - name: Wait for Controller to Be Ready
         run: kubectl wait --for=condition=available --timeout=90s deployment/koreo
