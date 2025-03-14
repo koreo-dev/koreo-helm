@@ -42,7 +42,7 @@ jobs:
         run: |
           kubectl apply -f tests/crds
           # Example: Apply a test CRD and verify behavior
-          kubectl apply -f tests/
+          kubectl apply -f tests/compare-directives.koreo tests/k8s-sa.koreo tests/patch-loop-testing.koreo tests/resource-functions.koreo tests/value-functions.koreo tests/workflows.koreo 
           sleep 10  # Allow time for processing
           kubectl get triggerdummies -o yaml
 
