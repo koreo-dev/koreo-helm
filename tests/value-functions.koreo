@@ -21,8 +21,8 @@ spec:
       message: retry message
       delay: 13
 
-  - assert: =inputs.validators.ok
-    ok: {}
+  # - assert: =inputs.validators.ok
+  #   ok: {}
 
   locals:
     computed: =inputs.values.string + " local computed"

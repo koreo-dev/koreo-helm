@@ -375,7 +375,7 @@ apiVersion: koreo.dev/v1beta1
 kind: ResourceTemplate
 metadata:
   name: template-list-as-set
-  namespace: koreo-testing
+  namespace: default
 spec:
   template:
     apiVersion: koreo.dev/v1beta1
@@ -392,7 +392,7 @@ apiVersion: koreo.dev/v1beta1
 kind: ResourceTemplate
 metadata:
   name: template-list-as-map
-  namespace: koreo-testing
+  namespace: default
 spec:
   template:
     apiVersion: koreo.dev/v1beta1
@@ -415,7 +415,7 @@ apiVersion: koreo.dev/v1beta1
 kind: ResourceTemplate
 metadata:
   name: template-both-special-compares
-  namespace: koreo-testing
+  namespace: default
 spec:
   template:
     apiVersion: koreo.dev/v1beta1
@@ -444,7 +444,7 @@ apiVersion: koreo.dev/v1beta1
 kind: ResourceTemplate
 metadata:
   name: template-normal-array-compares
-  namespace: koreo-testing
+  namespace: default
 spec:
   template:
     apiVersion: koreo.dev/v1beta1
