@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ template "koreo.fullname" . }}-{{ .Release.Name }}
+  name: {{ template "koreo.fullname" . }}-{{ .Release.Namespace }}
 rules:
 #   - apiGroups: ["", "extensions", "apps"]
 #     resources: ["*"]
