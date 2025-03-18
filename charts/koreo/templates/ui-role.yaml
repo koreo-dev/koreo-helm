@@ -1,4 +1,4 @@
-{{- if .Values.rbac.create -}}
+{{- if and .Values.ui.enabled .Values.ui.rbac.create -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -10,10 +10,6 @@ rules:
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
-#   - apiGroups: ["", "extensions", "apps"]
-#     resources: ["*"]
-#     verbs: ["*"]:
-        
   - apiGroups: ["koreo.dev"]
     resources:
       - workflows
@@ -22,19 +18,12 @@ rules:
       - resourcefunctions
       - functiontests
       - resourcetemplates
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
+    verbs: ["get", "list", "watch"]
 
   # Dynamic read-only rules
-  {{- range $group, $resources := .Values.rbac.namespace.read_only }}
+  {{- range $group, $resources := .Values.ui.rbac.namespace.read_only }}
   - apiGroups: ["{{ $group }}"]
     resources: {{ toYaml $resources | nindent 4 }}
     verbs: ["get", "list", "watch"]
-  {{- end }}
-
-  # Dynamic read-write rules
-  {{- range $group, $resources := .Values.rbac.namespace.read_write }}
-  - apiGroups: ["{{ $group }}"]
-    resources: {{ toYaml $resources | nindent 4 }}
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   {{- end }}
 {{- end -}}

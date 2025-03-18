@@ -1,24 +1,20 @@
-{{- if .Values.rbac.create -}}
+{{- if .Values.controller.rbac.create -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ template "koreo.fullname" . }}-{{ .Release.Namespace }}
 rules:
-#   - apiGroups: ["", "extensions", "apps"]
-#     resources: ["*"]
-#     verbs: ["*"]
-
   - apiGroups: ["apiextensions.k8s.io"]
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
-  {{- range $group, $resources := .Values.rbac.cluster.read_only }}
+  {{- range $group, $resources := .Values.controller.rbac.cluster.read_only }}
   - apiGroups: ["{{ $group }}"]
     resources: {{ toYaml $resources | nindent 4 }}
     verbs: ["get", "list", "watch"]
   {{- end }}
 
-  {{- range $group, $resources := .Values.rbac.cluster.read_write }}
+  {{- range $group, $resources := .Values.controller.rbac.cluster.read_write }}
   - apiGroups: ["{{ $group }}"]
     resources: {{ toYaml $resources | nindent 4 }}
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]

@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "koreo.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 4 }}
-    app.kubernetes.io/version: {{ include "koreo.chart_version_label" . }}
+    app.kubernetes.io/version: {{ include "koreo.controller_chart_version_label" . }}
   {{- with .Values.controller.deploymentAnnotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -20,7 +20,7 @@ spec:
     metadata:
       labels:
         {{- include "koreo.labels" (dict "context" . "component" .Values.controller.name "name" .Values.controller.name) | nindent 8 }}
-        app.kubernetes.io/version: {{ include "koreo.chart_version_label" . }}
+        app.kubernetes.io/version: {{ include "koreo.controller_chart_version_label" . }}
         {{- with .Values.controller.podLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -29,7 +29,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      serviceAccountName: {{ template "koreo.serviceAccountName" . }}
+      serviceAccountName: {{ template "koreo.controller.serviceAccountName" . }}
       {{- with .Values.controller.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -40,8 +40,8 @@ spec:
       {{- end }}
       containers:
         - name: controller
-          image: "{{- include "koreo.image" (dict "context" . "image" .Values.image) }}:{{ default (include "koreo.defaultTag" .) .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{- include "koreo.image" (dict "context" . "image" .Values.controller.image) }}:{{ default (include "koreo.controller.defaultTag" .) .Values.controller.image.tag }}"
+          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.controller.securityContext | nindent 12 }}
           resources:
@@ -76,7 +76,7 @@ spec:
       {{- with .Values.controller.extraContainers }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
-      {{- with .Values.image.pullSecrets }}
+      {{- with .Values.controller.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
