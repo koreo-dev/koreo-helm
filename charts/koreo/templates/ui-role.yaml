@@ -10,6 +10,11 @@ rules:
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
+  - apiGroups: [""]
+    resources:
+      - namespaces
+    verbs: ["get", "list", "watch"]
+
   - apiGroups: ["koreo.dev"]
     resources:
       - workflows
