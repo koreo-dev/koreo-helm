@@ -9,6 +9,6 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "koreo.fullname" . }}
+  name: {{ template "koreo.fullname" . }}-{{ .Release.Name }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}
