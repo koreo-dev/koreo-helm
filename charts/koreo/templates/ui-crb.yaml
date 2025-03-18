@@ -1,0 +1,14 @@
+{{- if and .Values.ui.enabled .Values.ui.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "koreo.ui.fullname" . }}-{{ .Release.Namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "koreo.ui.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ template "koreo.ui.fullname" . }}-{{ .Release.Namespace }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end -}}

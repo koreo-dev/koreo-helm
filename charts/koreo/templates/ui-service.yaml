@@ -1,0 +1,39 @@
+{{- if or .Values.ui.enabled .Values.ui.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "koreo.ui.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "koreo.labels" (dict "context" . "component" .Values.ui.name "name" .Values.ui.name) | nindent 4 }}
+    app.kubernetes.io/version: {{ include "koreo.ui_chart_version_label" . }}
+    {{- with .Values.ui.service.serviceLabels }}
+      {{ toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.ui.service.serviceAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4}}
+  {{- end }}
+spec:
+  ports:
+  - name: {{ .Values.ui.service.servicePortName }}
+    port: {{ .Values.ui.service.servicePort }}
+    protocol: TCP
+    targetPort: {{ .Values.ui.service.port }}
+  selector:
+    {{- include "koreo.selectorLabels" (dict "context" . "name" .Values.ui.name) | nindent 4 }}
+  sessionAffinity: None
+  type: {{ .Values.ui.service.serviceType }}
+  {{- if and (eq .Values.ui.service.serviceType "ClusterIP") .Values.ui.service.headlessService }}
+  clusterIP: None
+  {{- end }}
+  {{- if eq .Values.ui.service.serviceType "LoadBalancer" }}
+  {{- with .Values.ui.service.loadBalancerClass }}
+  loadBalancerClass: {{ . }}
+  {{- end }}
+  {{- if .Values.ui.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+    {{- toYaml .Values.ui.service.loadBalancerSourceRanges | nindent 4 }}
+  {{- end }}
+  {{- end }}
+{{- end -}}

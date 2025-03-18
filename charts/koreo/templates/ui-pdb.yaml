@@ -1,0 +1,20 @@
+{{- if and .Values.ui.enabled .Values.ui.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "koreo.ui.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "koreo.labels" (dict "context" . "component" .Values.ui.name "name" .Values.ui.name) | nindent 4 }}
+spec:
+  {{- if .Values.ui.pdb.minAvailable }}
+  minAvailable: {{ .Values.ui.pdb.minAvailable }}
+  {{- else if .Values.ui.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.ui.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 0
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "koreo.selectorLabels" (dict "context" . "name" .Values.ui.name) | nindent 6 }}
+{{- end }}

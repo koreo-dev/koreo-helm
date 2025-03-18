@@ -1,15 +1,15 @@
-{{- if .Values.rbac.create -}}
+{{- if and .Values.ui.enabled .Values.ui.rbac.create -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ template "koreo.fullname" . }}
+  name: {{ template "koreo.ui.fullname" . }}
   namespace: {{ .Release.Namespace }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.serviceAccount.name }}
+    name: {{ template "koreo.ui.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
-  name: {{ template "koreo.fullname" . }}
+  name: {{ template "koreo.ui.fullname" . }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}

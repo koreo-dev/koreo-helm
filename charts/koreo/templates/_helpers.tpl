@@ -8,7 +8,7 @@ Expand the name of the chart.
 {{- end }}
 
 {{/*
-Create a default fully qualified app name.
+Create a default fully qualified app name for controller
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "koreo.fullname" -}}
@@ -25,6 +25,23 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Create a default fully qualified app name for UI
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "koreo.ui.fullname" -}}
+{{- if .Values.uiFullnameOverride -}}
+{{- .Values.uiFullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" -}}-ui
+{{- else -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}-ui
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "koreo.chart" -}}
@@ -34,8 +51,15 @@ Create chart name and version as used by the chart label.
 {{/*
 Create kubernetes friendly chart version label.
 */}}
-{{- define "koreo.chart_version_label" -}}
-{{- regexReplaceAll "[^a-zA-Z0-9-_.]+" (regexReplaceAll "@sha256:[a-f0-9]+" (default (include "koreo.defaultTag" .) .Values.image.tag) "") "" | trunc 63 | quote -}}
+{{- define "koreo.controller_chart_version_label" -}}
+{{- regexReplaceAll "[^a-zA-Z0-9-_.]+" (regexReplaceAll "@sha256:[a-f0-9]+" (default (include "koreo.controller.defaultTag" .) .Values.controller.image.tag) "") "" | trunc 63 | quote -}}
+{{- end -}}
+
+{{/*
+Create kubernetes friendly chart version label.
+*/}}
+{{- define "koreo.ui_chart_version_label" -}}
+{{- regexReplaceAll "[^a-zA-Z0-9-_.]+" (regexReplaceAll "@sha256:[a-f0-9]+" (default (include "koreo.ui.defaultTag" .) .Values.ui.image.tag) "") "" | trunc 63 | quote -}}
 {{- end -}}
 
 {{/*
@@ -66,21 +90,39 @@ app: {{ .component }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Create the name of the controller service account to use
 */}}
-{{- define "koreo.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "koreo.fullname" .) .Values.serviceAccount.name }}
+{{- define "koreo.controller.serviceAccountName" -}}
+{{- if .Values.controller.serviceAccount.create -}}
+    {{ default (include "koreo.fullname" .) .Values.controller.serviceAccount.name }}
 {{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
+    {{ default "default" .Values.controller.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Return the default Argo Workflows app version
+Create the name of the service account to use
 */}}
-{{- define "koreo.defaultTag" -}}
-  {{- default .Chart.AppVersion .Values.image.tag }}
+{{- define "koreo.ui.serviceAccountName" -}}
+{{- if .Values.ui.serviceAccount.create -}}
+    {{ default (include "koreo.fullname" .) .Values.ui.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.ui.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the default Koreo controller app version
+*/}}
+{{- define "koreo.controller.defaultTag" -}}
+  {{- default .Chart.AppVersion .Values.controller.image.tag }}
+{{- end -}}
+
+{{/*
+Return the default Koreo ui app version
+*/}}
+{{- define "koreo.ui.defaultTag" -}}
+  {{- default .Chart.AppVersion .Values.ui.image.tag }}
 {{- end -}}
 
 {{/*
