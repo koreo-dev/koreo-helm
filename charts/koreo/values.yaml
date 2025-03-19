@@ -21,7 +21,7 @@ commonLabels: {}
 controller:
   image:
     # -- Repository for Koreo Image.
-    repository: us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-core
+    repository: us-docker.pkg.dev/koreo-dev/koreo/controller
     # -- Tag for Koreo image. Defaults to `.Chart.AppVersion`.
     tag: ""
     # -- Image pullPolicy For Koreo image
@@ -112,7 +112,7 @@ ui:
   enabled: true
   image:
     # -- Repository for Koreo UI Image.
-    repository: us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-ui
+    repository: us-docker.pkg.dev/koreo-dev/koreo/ui
     # -- Tag for Koreo image. Defaults to `.Chart.AppVersion`.
     tag: ""
     # -- Image pullPolicy For Koreo image
