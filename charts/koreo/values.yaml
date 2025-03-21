@@ -1,3 +1,6 @@
+# -- Enable superuser capabilities on the controller and ui, not for production use.
+development: false
+
 crds:
   # -- Install and upgrade CRDs
   install: true

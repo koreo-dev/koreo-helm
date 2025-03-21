@@ -13,4 +13,11 @@ rules:
     resources: {{ toYaml $resources | nindent 4 }}
     verbs: ["get", "list", "watch"]
   {{- end }}
+  
+  {{- if .Values.development -}}
+  - apiGroups: ["*"]
+    resources: 
+     - "*"
+    verbs: ["get", "list", "watch"]
+  {{- end -}}
 {{- end -}}

@@ -1,6 +1,6 @@
 # koreo
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.1](https://img.shields.io/badge/AppVersion-v0.0.1-informational?style=flat-square)
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 A Helm chart for Koreo
 
@@ -27,7 +27,7 @@ A Helm chart for Koreo
 | controller.extraEnv | list | `[]` | Extra environment variables to attach to the controller pod |
 | controller.image.pullPolicy | string | `"Always"` | Image pullPolicy For Koreo image |
 | controller.image.pullSecrets | list | `[]` | Pull secrets with credentials to pull images from a private registry |
-| controller.image.repository | string | `"us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-core"` | Repository for Koreo Image. |
+| controller.image.repository | string | `"us-docker.pkg.dev/koreo-dev/koreo/controller"` | Repository for Koreo Image. |
 | controller.image.tag | string | `""` | Tag for Koreo image. Defaults to `.Chart.AppVersion`. |
 | controller.initContainers | list | `[]` | Additional init containers to be added to the controller deployment |
 | controller.name | string | `"controller"` | Controller name |
@@ -60,6 +60,7 @@ A Helm chart for Koreo
 | crds.annotations | object | `{}` | Annotations to be added to all CRDs |
 | crds.install | bool | `true` | Install and upgrade CRDs |
 | crds.keep | bool | `true` | Keep or delete CRDs on chart uninstall |
+| development | bool | `false` | Enable superuser capabilities on the controller and ui, not for production use. |
 | fullnameOverride | string | `""` | String to override the koreo.fullname variable |
 | nameOverride | string | `""` | String to override the name portion of koreo.fullname variable |
 | ui.affinity | object | `{}` | Attach pod / node affinity rules to the pod |
@@ -69,7 +70,7 @@ A Helm chart for Koreo
 | ui.extraEnv | list | `[]` | Extra environment variables to attach to the ui pod |
 | ui.image.pullPolicy | string | `"Always"` | Image pullPolicy For Koreo image |
 | ui.image.pullSecrets | list | `[]` | Pull secrets with credentials to pull images from a private registry |
-| ui.image.repository | string | `"us-central1-docker.pkg.dev/konfig-platform-dev/konfig/koreo-ui"` | Repository for Koreo UI Image. |
+| ui.image.repository | string | `"us-docker.pkg.dev/koreo-dev/koreo/ui"` | Repository for Koreo UI Image. |
 | ui.image.tag | string | `""` | Tag for Koreo image. Defaults to `.Chart.AppVersion`. |
 | ui.initContainers | list | `[]` | Additional init containers to be added ui deployment |
 | ui.name | string | `"ui"` | UI Name |

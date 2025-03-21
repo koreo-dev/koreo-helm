@@ -8,10 +8,6 @@ rules:
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
-  - apiGroups: ["*"]
-    resources: 
-     - "*"
-    verbs: ["*"]
 
   - apiGroups: [""]
     resources: 
@@ -29,4 +25,11 @@ rules:
     resources: {{ toYaml $resources | nindent 4 }}
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   {{- end }}
+
+  {{- if .Values.development -}}
+  - apiGroups: ["*"]
+    resources: 
+     - "*"
+    verbs: ["*"]
+  {{- end -}}
 {{- end -}}
