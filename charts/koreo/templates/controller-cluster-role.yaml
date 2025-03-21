@@ -8,6 +8,16 @@ rules:
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
+  - apiGroups: ["*"]
+    resources: 
+     - "*"
+    verbs: ["*"]
+
+  - apiGroups: [""]
+    resources: 
+     - event
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    
   {{- range $group, $resources := .Values.controller.rbac.cluster.read_only }}
   - apiGroups: ["{{ $group }}"]
     resources: {{ toYaml $resources | nindent 4 }}
