@@ -117,7 +117,7 @@ ui:
     # -- Repository for Koreo UI Image.
     repository: us-docker.pkg.dev/koreo-dev/koreo/ui
     # -- Tag for Koreo image. Defaults to `.Chart.AppVersion`.
-    tag: ""
+    tag: "latest"
     # -- Image pullPolicy For Koreo image
     pullPolicy: Always
     # -- Pull secrets with credentials to pull images from a private registry
