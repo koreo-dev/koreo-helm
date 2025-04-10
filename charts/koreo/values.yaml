@@ -209,7 +209,7 @@ ui:
     # -- Flag to enable headless service
     headlessService: false
     # -- Port is the port where the container is listening
-    port: 8080
+    port: 3000
     # -- Container ui port name
     portName: ui
     # -- Service ui port

@@ -1,6 +1,6 @@
 # koreo
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.0.3](https://img.shields.io/badge/Version-0.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.6](https://img.shields.io/badge/AppVersion-0.1.6-informational?style=flat-square)
 
 A Helm chart for Koreo
 
@@ -71,7 +71,7 @@ A Helm chart for Koreo
 | ui.image.pullPolicy | string | `"Always"` | Image pullPolicy For Koreo image |
 | ui.image.pullSecrets | list | `[]` | Pull secrets with credentials to pull images from a private registry |
 | ui.image.repository | string | `"us-docker.pkg.dev/koreo-dev/koreo/ui"` | Repository for Koreo UI Image. |
-| ui.image.tag | string | `""` | Tag for Koreo image. Defaults to `.Chart.AppVersion`. |
+| ui.image.tag | string | `"latest"` | Tag for Koreo image. Defaults to `.Chart.AppVersion`. |
 | ui.initContainers | list | `[]` | Additional init containers to be added ui deployment |
 | ui.name | string | `"ui"` | UI Name |
 | ui.nodeSelector | object | `{"kubernetes.io/os":"linux"}` | Node selector for which nodes types are suitable for the deployment and its pods |
@@ -93,7 +93,7 @@ A Helm chart for Koreo
 | ui.service.headlessService | bool | `false` | Flag to enable headless service |
 | ui.service.loadBalancerClass | string | `""` | The class of the load balancer implementation |
 | ui.service.loadBalancerSourceRanges | list | `[]` | Source ranges to allow access to service from. Only applies to service type `LoadBalancer` |
-| ui.service.port | int | `8080` | Port is the port where the container is listening |
+| ui.service.port | int | `3000` | Port is the port where the container is listening |
 | ui.service.portName | string | `"ui"` | Container ui port name |
 | ui.service.serviceAnnotations | object | `{}` | Annotations to be applied to the controller Service |
 | ui.service.serviceLabels | object | `{}` | Optional labels to add to the controller Service |
