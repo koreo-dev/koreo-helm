@@ -1,9 +1,9 @@
 apiVersion: v2
-appVersion: 0.1.8
+appVersion: "0.1"
 name: koreo
 description: A Helm chart for Koreo
 type: application
-version: 0.0.5
+version: 0.1.0
 icon: https://koreo.dev/img/koreo-logo.png
 home: https://github.com/koreo.dev/koreo
 sources:
