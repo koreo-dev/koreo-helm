@@ -1,0 +1,43 @@
+name: Publish Helm Chart to Site
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout chart repo
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+
+      - name: Package chart
+        run: |
+          helm package charts/koreo --destination packaged/
+
+      - name: Clone website repo
+        run: |
+          git clone https://github.com/koreo-dev/koreo.dev.git
+          mv packaged/*.tgz koreo.dev/static/helm/
+
+      - name: Index charts
+        run: |
+          cd koreo.dev
+          helm repo index ./static/helm --url https://koreo.dev/helm
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.KOREO_SITE_PAT }}
+          path: koreo.dev
+          commit-message: Add new Helm chart
+          branch: add-helm-chart-${{ github.ref_name }}
+          title: Add Helm chart ${{ github.ref_name }}
