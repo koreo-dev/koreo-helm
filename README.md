@@ -9,7 +9,3 @@ helm repo add koreo https://koreo.dev/helm
 ### Custom Resource Definitions
 
 You can disable the CRD installation of the chart by using `--set crds.install=false` when installing the chart.
-
-### Changelog
-
-Changelogs are tracked on each release. Read more about this process [here](https://github.com/koreo.dev/kore-helm/blob/main/CONTRIBUTING.md#changelog).
