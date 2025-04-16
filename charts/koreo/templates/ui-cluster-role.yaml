@@ -8,6 +8,11 @@ rules:
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
+  - apiGroups: [""]
+    resources: 
+    - namespaces
+    verbs: ["get", "list", "watch"]
+    
   {{- range $group, $resources := .Values.ui.rbac.cluster.read_only }}
   - apiGroups: ["{{ $group }}"]
     resources:
