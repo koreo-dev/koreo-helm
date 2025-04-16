@@ -8,10 +8,10 @@ rules:
     resources: ["customresourcedefinitions"]
     verbs: ["get", "list", "watch"]
 
-
   - apiGroups: [""]
     resources: 
-     - event
+    - event
+    - namespaces
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
     
   {{- range $group, $resources := .Values.controller.rbac.cluster.read_only }}
@@ -26,7 +26,7 @@ rules:
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   {{- end }}
 
-  {{- if .Values.development -}}
+  {{- if .Values.development }}
   - apiGroups: ["*"]
     resources: 
      - "*"
