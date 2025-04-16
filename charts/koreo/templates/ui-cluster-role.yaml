@@ -10,14 +10,14 @@ rules:
 
   {{- range $group, $resources := .Values.ui.rbac.cluster.read_only }}
   - apiGroups: ["{{ $group }}"]
-    resources: {{ toYaml $resources | nindent 4 }}
+    resources:
+{{ toYaml $resources | indent 4 }}
     verbs: ["get", "list", "watch"]
   {{- end }}
-  
-  {{- if .Values.development -}}
+
+  {{- if .Values.development }}
   - apiGroups: ["*"]
-    resources: 
-     - "*"
+    resources: ["*"]
     verbs: ["get", "list", "watch"]
-  {{- end -}}
-{{- end -}}
+  {{- end }}
+{{- end }}
