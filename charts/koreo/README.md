@@ -1,6 +1,6 @@
 # koreo
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1](https://img.shields.io/badge/AppVersion-0.1-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1](https://img.shields.io/badge/AppVersion-0.1-informational?style=flat-square)
 
 A Helm chart for Koreo
 
@@ -55,7 +55,7 @@ A Helm chart for Koreo
 | controller.serviceAccount.labels | object | `{}` | Labels applied to created service account |
 | controller.serviceAccount.name | string | `"koreo"` | Service account name to create or expect |
 | controller.serviceAccount.pullSecrets | list | `[]` | Pull secrets with credentials to pull images from a private registry |
-| controller.templateNamespace | string | `""` | Namespace where the ResourceTemplate namespace is deployed |
+| controller.templateNamespace | string | `""` | Namespace where the ResourceTemplate resources are deployed |
 | controller.tolerations | list | `[]` | Node tolerations to specify which nodes are suitable for the deployment and its pods |
 | controller.topologySpreadConstraints | list | `[]` | Attach custom topology rules to the controller |
 | controller.volumeMounts | list | `[]` | Volume mounts to be added to the controller pod |

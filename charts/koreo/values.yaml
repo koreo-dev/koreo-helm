@@ -54,7 +54,7 @@ controller:
   resources: {}
   # -- Namespace where koreo ValueFunctions, ResourceFunctions and Workflows are deployed
   koreoNamespace: ""
-  # -- Namespace where the ResourceTemplate namespace is deployed
+  # -- Namespace where the ResourceTemplate resources are deployed
   templateNamespace: ""
   # -- Namespace where the install watches for triggered resources
   resourceNamespace: ""
