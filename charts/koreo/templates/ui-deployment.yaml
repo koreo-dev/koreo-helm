@@ -51,24 +51,9 @@ spec:
             - name: http
               protocol: TCP
               containerPort: 8080
-          env:
-            - name: KOREO_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
-            - name: TEMPLATE_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
-            - name: RESOURCE_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
           {{- with .Values.ui.extraEnv }}
-            {{- toYaml . | nindent 12 }}
+          env:
+            {{- toYaml . | nindent 10 }}
           {{- end }}
           {{- with .Values.ui.volumeMounts }}
           volumeMounts:

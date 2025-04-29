@@ -52,23 +52,38 @@ spec:
               containerPort: 8080
           env:
             - name: KOREO_NAMESPACE
+              {{- if .Values.controller.koreoNamespace }}
+              value: {{ .Values.controller.koreoNamespace | quote }}
+              {{- else }}
               valueFrom:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
+              {{- end }}
+
             - name: TEMPLATE_NAMESPACE
+              {{- if .Values.controller.templateNamespace }}
+              value: {{ .Values.controller.templateNamespace | quote }}
+              {{- else }}
               valueFrom:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
+              {{- end }}
+
             - name: RESOURCE_NAMESPACE
+              {{- if .Values.controller.resourceNamespace }}
+              value: {{ .Values.controller.resourceNamespace | quote }}
+              {{- else }}
               valueFrom:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
-          {{- with .Values.controller.extraEnv }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+              {{- end }}
+
+            {{- with .Values.controller.extraEnv }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- with .Values.controller.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 10 }}

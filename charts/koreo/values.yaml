@@ -52,6 +52,12 @@ controller:
   securityContext: {}
   # -- Resource limits and requests for the controller pod
   resources: {}
+  # -- Namespace where koreo ValueFunctions, ResourceFunctions and Workflows are deployed
+  koreoNamespace: ""
+  # -- Namespace where the ResourceTemplate resources are deployed
+  templateNamespace: ""
+  # -- Namespace where the install watches for triggered resources
+  resourceNamespace: ""
   # -- Extra environment variables to attach to the controller pod
   extraEnv: []
   # -- Volume mounts to be added to the controller pod
