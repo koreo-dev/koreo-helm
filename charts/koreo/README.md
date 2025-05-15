@@ -40,6 +40,8 @@ A Helm chart for Koreo
 | controller.podLabels | object | `{}` | Additional pod labels that should be applied to the pod |
 | controller.podSecurityContext | object | `{}` | Pod Security Context that are set on the controller pods |
 | controller.priorityClassName | string | `""` | Attach a priority class to the pods. |
+| controller.rbac.bind_cluster_role | bool | `true` | Bind the serviceAccount.name to the ClusterRole |
+| controller.rbac.bind_role | bool | `true` | Bind the serviceAccount.name to the Role |
 | controller.rbac.cluster.read_only | object | `{}` | Read-only apiGroups and their resources that the serviceAccount.name is granted access to in the cluster |
 | controller.rbac.cluster.read_write | object | `{}` | Read-write apiGroups and their resources that the serviceAccount.name is granted access to in the cluster |
 | controller.rbac.create | bool | `true` | Create Role, RoleBinding, ClusterRole, and ClusterRoleBinding for serviceAccount.name |
