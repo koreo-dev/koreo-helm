@@ -93,6 +93,11 @@ controller:
   rbac:
     # -- Create Role, RoleBinding, ClusterRole, and ClusterRoleBinding for serviceAccount.name
     create: true
+    # -- Bind the serviceAccount.name to the ClusterRole
+    bind_cluster_role: true
+    # -- Bind the serviceAccount.name to the Role
+    bind_role: true
+
     namespace:
       # -- Read-only apiGroups and their resources that the serviceAccount.name is granted access to in the deployed namespace
       read_only:
